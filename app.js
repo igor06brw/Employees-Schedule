@@ -14,16 +14,16 @@ function app(){
         let date = new Date(),
             month = date.getMonth(),
             year = date.getFullYear(),
-            currentMonth = [month + ' ' + year]
-        console.log(currentMonth);
+            currentMonth = [month, year]
         return currentMonth;
     }
 
     function setSchedule(employee) {
-        console.log(typeof getRandomHours(employee.workingHours))
-        // arrDays.forEach(el => {
-        //     console.log(el + ' ' + getRandomHours(employee.workingHours));
-        // });  
+        let currentDaysofMonth = getDaysInMonth(...getCurrentMonth())
+        // console.log(getDaysInMonth(...getCurrentMonth()) + getRandomHours(employee.workingHours)) // 0 - Styczeń, 1- Luty
+        currentDaysofMonth.forEach(el => {
+            console.log(el + ' ' + getRandomHours(employee.workingHours));
+        });  
     }
 
     function getRandomHours(workingHours) {
@@ -31,23 +31,30 @@ function app(){
         return workHours; 
     }
 
-    function displaySchedule(arg) {
-
-    }
-
     function getDaysInMonth(month, year) {
         // Since no month has fewer than 28 days
-        let date = new Date(year, month, 1),
-            days = [];
+        let days = [],
+            date = new Date(year, month, 1)
+            
    
         while (date.getMonth() === month) {
-           days.push(new Date(date));
-           date.setDate(date.getDate() + 1);
+            days.push(new Date(date).toString().substring(0,15));
+            date.setDate(date.getDate() + 1);
         }
         return days;
    }
+
+//    function _getDaysInMonth(month, year) {
+//        let month = month.getMonth(),
+//            year = year.getFullYear(),
+//            days = [];
+
+//         while (date.getMonth() === month) {
+//                 days.push
+//             }
+//    }
     
     
-   setSchedule(Employee1);
+  setSchedule(Employee1);
 }
 app();

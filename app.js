@@ -1,13 +1,15 @@
 function app(){
     let morning = '6-14:15',
         afternoon = '14-22:15',
-        night = '22-6:15'
+        night = '22-6:15',
+        free = 'free day from work'
 
    
     const Employee1 = { //object of employee
         firstName: 'Janusz',
         lastName: 'Nowak',
-        workingHours: [morning, afternoon]
+        workingHours: [morning, afternoon, night],
+        workingDay: []
     }
 
     function getCurrentMonth() {
@@ -19,11 +21,28 @@ function app(){
     }
 
     function setSchedule(employee) {
-        let currentDaysofMonth = getDaysInMonth(...getCurrentMonth())
-        // console.log(getDaysInMonth(...getCurrentMonth()) + getRandomHours(employee.workingHours)) // 0 - Styczeń, 1- Luty
-        currentDaysofMonth.forEach(el => {
-            console.log(el + ' ' + getRandomHours(employee.workingHours));
-        });  
+        let currentDaysOfMonth = getDaysInMonth(...getCurrentMonth()),
+            randomHourWork = [];
+
+        currentDaysOfMonth.forEach((el, index) => {
+            randomHourWork.push(getRandomHours(employee.workingHours)); // var of generator num from object Employee
+            if(randomHourWork[index] == night && randomHourWork[index - 1] == morning) {
+                employee.workingDay.push(free);
+                console.log(el + ' ' + employee.workingDay[index])
+            } else if (randomHourWork[index] == morning && randomHourWork[index - 1] == night) {
+                employee.workingDay.push(free);
+                console.log(el + ' ' + employee.workingDay[index])
+            } else if (randomHourWork[index] == morning && randomHourWork[index - 1] == afternoon) {
+                employee.workingDay.push(free);
+                console.log(el + ' ' + employee.workingDay[index])
+            } else if (randomHourWork[index] == afternoon && randomHourWork[index - 1] == night) {
+                employee.workingDay.push(free);
+                console.log(el + ' ' + employee.workingDay[index])
+            } else {
+                employee.workingDay.push(randomHourWork[index])
+                console.log(el + ' ' + employee.workingDay[index])
+            }
+        }); 
     }
 
     function getRandomHours(workingHours) {

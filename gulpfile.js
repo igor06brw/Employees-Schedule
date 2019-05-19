@@ -1,10 +1,10 @@
 const gulp = require('gulp');
 const { src, dest } = require('gulp');
-const uglify = require('gulp-uglify');
+const { series, parallel } = require('gulp');
+const uglify = require('gulp-uglify-es').default;
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
 const sass = require('gulp-sass');
-const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 
 
@@ -16,16 +16,17 @@ function styles() {
 };
 
 function  sassWatch() {
-  gulp.watch('./src/sass/*.scss', ['sass']);
+  gulp.watch('./src/sass/*.scss', ['sass']);            //
 };
 
-function scripts() {
+function scripts() {              
   return gulp.src('./src/*.js', { sourcemaps: true })
-    .pipe(uglify())
-    .pipe(gulp.dest('./dest/js'));
+    .pipe(rename('main.min.js'))                        //rename to main.min.js
+    .pipe(uglify())                                     //minify ES5+
+    .pipe(gulp.dest('./dest/js'));                      //finish to dest folder js
 }
 
-let build = gulp.series(scripts, sass, sassWatch);
+let build = gulp.series(parallel(scripts, sass), sassWatch);
 
 exports.styles = styles;
 exports.scripts = scripts;

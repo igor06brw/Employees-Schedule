@@ -4,4 +4,10 @@ html {
     & {
         display: flex;
     }
+    &:hover {
+        display: flex;
+    }
+    & {
+       display: block;
+    }
 }
